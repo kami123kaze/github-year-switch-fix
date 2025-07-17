@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { GET_USER_BASIC, GET_CONTRIBUTION_CALENDAR } from '../graphql/queries';
-import { Header, Calendar, Contributions, IntroModal } from '../components/index';
+import { Header, Calendar, Contributions,IntroModalFixed } from '../components/index';
+
+
 
 const years = [2023, 2024, 2025];
 const login = 'kami123kaze'; 
@@ -13,14 +15,15 @@ function Fixed() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
+   const hasSeenIntro = localStorage.getItem('hasSeenIntroFixed');
     if (!hasSeenIntro) {
       setShowModal(true);
     }
   }, []);
 
+
   const handleCloseModal = () => {
-    localStorage.setItem('hasSeenIntro', 'true');
+    localStorage.setItem('hasSeenIntroFixed', 'true');
     setShowModal(false);
   };
 
@@ -69,7 +72,7 @@ function Fixed() {
 
   return (
     <div className="min-h-screen bg-[#0d1117] text-white flex flex-col items-center">
-      {showModal && <IntroModal onClose={handleCloseModal} />}
+      {showModal && <IntroModalFixed onClose={handleCloseModal} />}
       <div className="w-full max-w-5xl px-4">
         <Header user={user} />
 
