@@ -18,6 +18,11 @@ In the original implementation:
 
 - **Browser History Clean-up & no unnecessary re-renders**: Year selection now updates the calendar without altering browser history or triggering unnecessary page navigations.
 
+## How It’s Fixed
+
+- **URL Decoupling**: Instead of changing the browser’s address bar (which adds to history), I used internal state to track the selected year. This prevents unnecessary history entries and page reloads.
+- **Internal State Navigation**: Instead of relying on URL-based navigation (which causes extra browser history entries like GitHub’s version), I used internal state to switch years without altering the URL or triggering full page reloads.
+
 
 ##  Stack
 
