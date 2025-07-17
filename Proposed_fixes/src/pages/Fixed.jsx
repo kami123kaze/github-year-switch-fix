@@ -1,31 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { GET_USER_BASIC, GET_CONTRIBUTION_CALENDAR } from './graphql/queries';
-import { Header, Calendar, Contributions, IntroModal } from './components/index';
+import { GET_USER_BASIC, GET_CONTRIBUTION_CALENDAR } from '../graphql/queries';
+import { Header, Calendar, Contributions, IntroModal } from '../components/index';
 
 const years = [2023, 2024, 2025];
 const login = 'kami123kaze'; 
 
-function App() {
+function Fixed() {
   const [user, setUser] = useState(null);
   const [calendar, setCalendar] = useState(null);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [showModal, setShowModal] = useState(false); 
-  const [useUrlParams, setUseUrlParams] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
-  // 1. Parse URL params on first load
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const from = params.get('from');
-    if (from) {
-      const parsedYear = new Date(from).getFullYear();
-      if (years.includes(parsedYear)) {
-        setYear(parsedYear);
-      }
-    }
-  }, []);
-
-  // Check localStorage for modal status
   useEffect(() => {
     const hasSeenIntro = localStorage.getItem('hasSeenIntro');
     if (!hasSeenIntro) {
@@ -33,13 +19,12 @@ function App() {
     }
   }, []);
 
-  //  Handle modal close
   const handleCloseModal = () => {
     localStorage.setItem('hasSeenIntro', 'true');
     setShowModal(false);
   };
 
-  // 2. Fetch GitHub user info
+
   useEffect(() => {
     axios
       .post(
@@ -57,7 +42,7 @@ function App() {
       .then(res => setUser(res.data.data.user));
   }, []);
 
-  //  Fetch contributions when year changes
+  
   useEffect(() => {
     const from = `${year}-01-01T00:00:00Z`;
     const to = `${year}-12-31T23:59:59Z`;
@@ -86,23 +71,17 @@ function App() {
     <div className="min-h-screen bg-[#0d1117] text-white flex flex-col items-center">
       {showModal && <IntroModal onClose={handleCloseModal} />}
       <div className="w-full max-w-5xl px-4">
-        <Header
-          user={user}
-          useUrlParams={useUrlParams}
-          setUseUrlParams={setUseUrlParams}
-        />
+        <Header user={user} />
 
-        {/* Year Links */}
+       
         <div className="flex gap-2 mt-4 mb-4 justify-center">
           {years.map(yr => {
-            const from = `${yr}-01-01T00:00:00Z`;
-            const to = `${yr}-12-31T23:59:59Z`;
             const isActive = yr === year;
 
             return (
-              <a
+              <button
                 key={yr}
-                href={`?from=${from}&to=${to}`}
+                onClick={() => setYear(yr)}
                 className={`px-3 py-1 rounded-md text-sm transition ${
                   isActive
                     ? 'bg-green-500 text-black'
@@ -110,7 +89,7 @@ function App() {
                 }`}
               >
                 {yr}
-              </a>
+              </button>
             );
           })}
         </div>
@@ -122,4 +101,4 @@ function App() {
   );
 }
 
-export default App;
+export default Fixed;
