@@ -54,7 +54,7 @@ In the original implementation:
 
 Small UX bugs like broken back button behavior can significantly disrupt user experience and trust. This project shows how thoughtful, detail-oriented fixes can make a huge difference.
 
-Feel free to fork, extend, or contribute!
+Feel free to fork, extend, or contribute (or get me a job ;)!
 
 ---
 
